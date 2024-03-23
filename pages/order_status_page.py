@@ -1,20 +1,29 @@
 import allure
 
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
-
+from constants import Constants
+from locators.dzen_locators import DzenLocators
+from locators.header_and_cookie_locators import HeaderAndCookieLocators
+from locators.main_page_locators import MainPageLocators
 from pages.base_page import BasePage
 
 
 class OrderStatusPage(BasePage):
 
-    @allure.step('Кликнуть на лого без переключения на новое окно')
-    def click_to_logo_without_window_switch(self, logo, expected_element):
-        self.click_to_element(logo)
-        (WebDriverWait(self.driver, 15).until(
-            expected_conditions.element_to_be_clickable(expected_element)))
+    @allure.step('Перейти на страницу просмотра статуса заказа')
+    def open_order_status_page(self, driver):
+        driver.get(Constants.ORDER_STATUS_PAGE_URL)
 
-    @allure.step('Кликнуть на лого с последующим переключением на новое окно')
-    def click_to_logo_with_window_switch(self, logo, expected_element):
-        self.click_to_element(logo)
-        self.switch_to_window(expected_element)
+    @allure.step('Кликнуть на лого "Самоката"')
+    def click_to_scooter_logo(self):
+        self.click_to_element(HeaderAndCookieLocators.SCOOTER_LOGO)
+        self.find_element_with_wait(MainPageLocators.ORDER_BUTTON_DOWN)
+
+    @allure.step('Кликнуть на лого "Яндекса" с последующим переключением на новое окно')
+    def click_to_yandex_logo(self):
+        self.click_to_element(HeaderAndCookieLocators.YANDEX_LOGO)
+        self.switch_to_window(DzenLocators.SEARCH_BUTTON)
+
+    @allure.step('Получить URL')
+    def get_current_url(self, driver):
+        current_url = driver.current_url
+        return current_url

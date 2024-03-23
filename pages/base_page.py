@@ -1,3 +1,4 @@
+from selenium.common import NoSuchElementException
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -32,3 +33,15 @@ class BasePage:
         new_window = self.driver.window_handles[1]
         self.driver.switch_to.window(new_window)
         return self.find_element_with_wait(locator)
+
+    def click_to_element_with_exceptions(self, locator):
+        try:
+            self.click_to_element(locator)
+        except NoSuchElementException:
+            pass
+
+    def scroll_to_element(self, locator):
+        element = self.driver.find_element(*locator)
+        self.driver.execute_script("arguments[0].scrollIntoView();", element)
+        (WebDriverWait(self.driver, 10).
+            until(expected_conditions.element_to_be_clickable(locator)))

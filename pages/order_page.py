@@ -1,40 +1,31 @@
 import allure
 
+from locators.order_page_locators import OrderPageLocators
 from pages.base_page import BasePage
 
 
 class OrderPage(BasePage):
-    @allure.step('Создать заказ: заполнить данные и подтвердить оформление')
-    def create_order(self, name_locator, name,
-                     surname_locator, surname,
-                     address_locator, address,
-                     subway_station_locator, subway_station,
-                     subway_station_list_locator,
-                     phone_locator, phone,
-                     button_next_locator,
-                     date_locator, date,
-                     rent_time_locator,
-                     rent_time_list_locator,
-                     color_locator,
-                     comment_locator, comment,
-                     finish_order_button_locator,
-                     accept_order_button_locator):
-        self.add_text_to_element(name_locator, name)
-        self.add_text_to_element(surname_locator, surname)
-        self.add_text_to_element(address_locator, address)
-        self.add_text_to_element(subway_station_locator, subway_station)
-        self.click_to_element(subway_station_list_locator)
-        self.add_text_to_element(phone_locator, phone)
-        self.click_to_element(button_next_locator)
-        self.add_text_to_element(date_locator, date)
+
+    @allure.step('Заполнить данные на форме "Для кого самокат" и перейти на форму "Про аренду"')
+    def create_about_customer_form(self, name, surname, address, subway_station, phone):
+        self.add_text_to_element(OrderPageLocators.NAME_FORM, name)
+        self.add_text_to_element(OrderPageLocators.SURNAME_FORM, surname)
+        self.add_text_to_element(OrderPageLocators.ADDRESS_FORM, address)
+        self.add_text_to_element(OrderPageLocators.SUBWAY_STATION_FORM, subway_station)
+        self.click_to_element(OrderPageLocators.SUBWAY_STATION_LIST)
+        self.add_text_to_element(OrderPageLocators.PHONE_FORM, phone)
+        self.click_to_element(OrderPageLocators.BUTTON_NEXT)
+
+    @allure.step('Заполнить данные на форме "Про аренду" и подтвердить оформление заказа')
+    def create_about_rent_form(self, date, color_locator, comment):
+        self.add_text_to_element(OrderPageLocators.DATE_FORM, date)
         self.click_to_element(color_locator)
-        self.click_to_element(rent_time_locator)
-        self.click_to_element(rent_time_list_locator)
-        self.add_text_to_element(comment_locator, comment)
-        self.click_to_element(finish_order_button_locator)
-        self.click_to_element(accept_order_button_locator)
+        self.click_to_element(OrderPageLocators.RENT_TIME_FORM)
+        self.click_to_element(OrderPageLocators.RENT_TIME_LIST)
+        self.add_text_to_element(OrderPageLocators.COMMENT_FOR_COURIER, comment)
+        self.click_to_element(OrderPageLocators.FINISH_ORDER_BUTTON)
+        self.click_to_element(OrderPageLocators.ACCEPT_ORDER_BUTTON)
 
     @allure.step('Получить текст подтверждения заказа')
-    def check_order_info(self, locator):
-        order_info = self.get_text_from_element(locator)
-        return order_info
+    def check_order_info(self):
+        return self.get_text_from_element(OrderPageLocators.ORDER_INFO)
