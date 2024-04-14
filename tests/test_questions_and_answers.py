@@ -23,5 +23,5 @@ class TestQuestionsAndAnswers:
                              ])
     def test_questions_and_answers(self, driver, num, expected_answer_text):
         main_page = MainPage(driver)
-        result = main_page.get_answer_text(MainPageLocators.QUESTION_LOCATOR, MainPageLocators.ANSWER_LOCATOR, num)
+        result = main_page.get_answer_text(num)
         assert result == expected_answer_text, "Текст ответа не соответствует ожидаемому"

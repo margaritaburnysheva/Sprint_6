@@ -22,8 +22,3 @@ class OrderStatusPage(BasePage):
     def click_to_yandex_logo(self):
         self.click_to_element(HeaderAndCookieLocators.YANDEX_LOGO)
         self.switch_to_window(DzenLocators.SEARCH_BUTTON)
-
-    @allure.step('Получить URL')
-    def get_current_url(self, driver):
-        current_url = driver.current_url
-        return current_url

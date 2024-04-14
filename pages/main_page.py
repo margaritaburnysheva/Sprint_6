@@ -8,9 +8,9 @@ from pages.base_page import BasePage
 class MainPage(BasePage):
 
     @allure.step('Получить текст ответа')
-    def get_answer_text(self, locator_q, locator_a, num):
-        locator_q_formatted = self.format_locators(locator_q, num)
-        locator_a_formatted = self.format_locators(locator_a, num)
+    def get_answer_text(self, num):
+        locator_q_formatted = self.format_locators(MainPageLocators.QUESTION_LOCATOR, num)
+        locator_a_formatted = self.format_locators(MainPageLocators.ANSWER_LOCATOR, num)
         self.scroll_to_element(locator_q_formatted)
         self.click_to_element(locator_q_formatted)
         return self.get_text_from_element(locator_a_formatted)

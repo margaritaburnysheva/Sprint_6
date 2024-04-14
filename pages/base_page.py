@@ -45,3 +45,7 @@ class BasePage:
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
         (WebDriverWait(self.driver, 10).
             until(expected_conditions.element_to_be_clickable(locator)))
+
+    def get_current_url(self, driver):
+        current_url = driver.current_url
+        return current_url
